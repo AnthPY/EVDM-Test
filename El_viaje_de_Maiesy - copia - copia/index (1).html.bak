@@ -1,0 +1,719 @@
+﻿<!DOCTYPE html>
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>El viaje de Maiesy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./El viaje de Maiesy_files/css2" rel="stylesheet">
+<style>*{box-sizing:border-box;}html,body{margin:0;height:100%;background:#0a0a12;display:flex;align-items:center;justify-content:center;font-family:'Press Start 2P',monospace;overflow:hidden;}#gameWrap{position:relative;width:100vw;height:100vh;max-width:480px;max-height:100vh;aspect-ratio:9/16;box-shadow:0 0 60px rgba(0,0,0,0.6);background:#000;}canvas{display:block;width:100%;height:100%;touch-action:none;cursor:pointer;image-rendering:pixelated;image-rendering:crisp-edges;}#overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#2B2418;pointer-events:none;}#overlay .box{background:#F4E9C9;border:4px solid #2B2418;border-radius:0;box-shadow:6px 6px 0 rgba(0,0,0,0.5),inset 0 0 0 3px #F4E9C9;padding:22px 20px;pointer-events:auto;max-width:88%;}#overlay h1{margin:0 0 14px 0;font-size:1rem;line-height:1.6;color:#B8402F;text-transform:uppercase;}#overlay p{margin:8px 0;font-size:.6rem;line-height:1.8;}#overlay .hint{font-size:.55rem;opacity:.75;margin-top:14px;}#overlay button{margin-top:16px;background:#3C8F5B;color:#F4E9C9;border:none;border-bottom:5px solid #2C6E43;box-shadow:0 0 0 2px #2B2418;padding:12px 20px;font-size:.65rem;font-family:'Press Start 2P',monospace;cursor:pointer;}#overlay button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:transform .08s ease,filter .08s ease;}#overlay button:active,#overlay button.is-pressed{transform:translateY(5px) scale(0.97);border-bottom-width:1px;filter:brightness(0.8);}#overlay button.secondary{background:#4A6FA5;border-bottom-color:#33507A;}#overlay button.leafBtn{background:#6B8E3F;border-bottom-color:#4B7A2F;}#overlay h1.menuTitle{color:#3C8F5B;font-size:.95rem;}.box.leaf{background:linear-gradient(160deg,#F0F8DC 0%,#D9EEB0 55%,#C3E28C 100%);border:4px solid #4B7A2F;border-radius:10px 46px 10px 46px;box-shadow:6px 6px 0 rgba(0,0,0,0.35),inset 0 0 0 3px #F0F8DC;color:#2F4D1E;position:relative;}.box.leaf::before{content:'';position:absolute;left:50%;top:12%;bottom:12%;width:2px;background:rgba(75,122,47,0.35);transform:translateX(-50%);}.box.leaf h1{color:#3C6B25;font-size:.8rem;}.box.leaf p{text-align:left;font-size:.55rem;line-height:1.9;}#scoresList{max-height:118px;overflow-y:auto;margin-top:10px;font-size:.55rem;line-height:2;text-align:left;padding:0 4px;}#scoresList::-webkit-scrollbar{width:5px;}#scoresList::-webkit-scrollbar-thumb{background:#2B2418;}.scoreRow{display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dashed rgba(43,36,24,0.25);}.scoreRow.best{color:#B8402F;}#overlay.menu-mode{align-items:stretch;justify-content:flex-start;padding:0;}
+#overlay.menu-mode #menuBox{position:absolute;left:8.2%;top:49.8%;width:30.8%;height:26.7%;margin:0;max-width:none;background:transparent;border:0;border-radius:0;box-shadow:none;padding:0;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;gap:9%;overflow:visible;}
+#overlay.menu-mode #menuBox::before,#overlay.menu-mode #menuBox::after{display:none;}
+#overlay.menu-mode #menuBox br{display:none;}
+#overlay.menu-mode #menuBox button{position:relative;z-index:1;width:100%;height:28.5%;margin:0;padding:0 13%;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#ffca63 0%,#ed913c 58%,#c85c24 100%);border:2px solid #35190f;border-radius:4px;box-shadow:0 5px 0 #603018,0 8px 0 rgba(24,10,4,0.4),inset 0 0 0 2px #ffd98a,inset 0 -5px 0 rgba(103,37,15,0.33),inset 0 3px 0 rgba(255,237,160,0.56);color:#91331d;font-size:clamp(8px,2.55vw,18px);line-height:1;font-family:'Press Start 2P',monospace;letter-spacing:0;pointer-events:auto;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:transform .075s ease,box-shadow .075s ease,filter .075s ease;transform-origin:center;overflow:visible;}
+#overlay.menu-mode #menuBox button .btnText{position:relative;z-index:2;display:block;text-shadow:1px 1px 0 #ffd781,-1px -1px 0 #3a1d11,0 2px 0 rgba(255,214,128,0.58);white-space:nowrap;}
+#overlay.menu-mode #scoresMenuBtn .btnText{font-size:1em;}
+#overlay.menu-mode #menuBox button .shine{position:absolute;left:9%;right:9%;top:13%;height:24%;border-radius:2px;background:linear-gradient(180deg,rgba(255,238,156,0.56),rgba(255,226,118,0));pointer-events:none;}
+#overlay.menu-mode #menuBox button .leaf{display:none;}
+#overlay.menu-mode #menuBox button .leaf::after{content:'';position:absolute;left:16%;top:48%;width:74%;height:1px;background:#dcff8c;transform:rotate(-30deg);opacity:.75;}
+#overlay.menu-mode #menuBox button::before,#overlay.menu-mode #menuBox button::after{display:none;}
+#overlay.menu-mode #menuBox button::before{left:5px;}
+#overlay.menu-mode #menuBox button::after{right:5px;}
+#overlay.menu-mode #playMenuBtn,#overlay.menu-mode #scoresMenuBtn,#overlay.menu-mode #aboutMenuBtn{top:auto;height:28.5%;}
+#overlay.menu-mode #menuBox button:active,#overlay.menu-mode #menuBox button.is-pressed{transform:translateY(5px);box-shadow:0 1px 0 #603018,0 2px 0 rgba(24,10,4,0.42),inset 0 3px 6px rgba(56,22,9,0.45),inset 0 0 0 2px #e99f4e;filter:brightness(0.9);}
+#overlay.menu-mode #menuBox button:active .btnText,#overlay.menu-mode #menuBox button.is-pressed .btnText{transform:translateY(1px);text-shadow:1px 1px 0 #e99f4e,-1px -1px 0 #3a1d11;}
+#overlay.menu-mode #menuBox button:active .leaf,#overlay.menu-mode #menuBox button.is-pressed .leaf{transform:translateY(1px) rotate(-15deg);filter:brightness(0.82);}
+#overlay.menu-mode #scoresBox,#overlay.menu-mode #aboutBox{position:absolute;left:6%;right:6%;top:49%;margin:0;max-width:none;max-height:42%;overflow:hidden;background:linear-gradient(180deg,#edaf52 0%,#d48735 44%,#bb6427 100%);border:2px solid #35190f;border-radius:4px;box-shadow:4px 5px 0 rgba(31,15,8,0.58),inset 0 0 0 2px #ffc36a,inset 0 -8px 0 rgba(86,38,14,0.22);padding:18px 16px 16px;color:#4b2112;pointer-events:auto;}
+#overlay.menu-mode #scoresBox::before,#overlay.menu-mode #aboutBox::before{content:'';position:absolute;inset:7px;background:repeating-linear-gradient(0deg,rgba(255,232,154,0.24) 0 2px,transparent 2px 18px);border:1px solid rgba(73,32,12,0.42);pointer-events:none;}
+#overlay.menu-mode #scoresBox h1,#overlay.menu-mode #aboutBox h1{position:relative;z-index:1;margin:0 0 10px;color:#91331d;font-size:clamp(12px,3.5vw,20px);line-height:1.35;text-shadow:1px 1px 0 #ffd781,-1px -1px 0 #3a1d11;}
+#overlay.menu-mode #scoresBox p,#overlay.menu-mode #aboutBox p,#overlay.menu-mode #scoresList{position:relative;z-index:1;color:#3a1d11;text-shadow:0 1px 0 rgba(255,218,132,0.65);}
+#overlay.menu-mode #aboutBox p{max-height:135px;overflow-y:auto;text-align:left;font-size:clamp(8px,2.2vw,13px);line-height:1.75;padding:0 4px;}
+#overlay.menu-mode #scoresList{max-height:112px;overflow-y:auto;}
+#overlay.menu-mode #scoresBox button,#overlay.menu-mode #aboutBox button{position:relative;z-index:1;margin-top:12px;background:linear-gradient(180deg,#ffca63 0%,#ed913c 58%,#c85c24 100%);border:2px solid #35190f;border-radius:4px;border-bottom:0;box-shadow:0 5px 0 #603018,0 7px 0 rgba(24,10,4,0.36),inset 0 0 0 2px #ffd98a,inset 0 -4px 0 rgba(103,37,15,0.33);color:#91331d;text-shadow:1px 1px 0 #ffd781,-1px -1px 0 #3a1d11;font-size:clamp(8px,2.45vw,14px);}
+#overlay.menu-mode #scoresBox button:active,#overlay.menu-mode #aboutBox button:active,#overlay.menu-mode #scoresBox button.is-pressed,#overlay.menu-mode #aboutBox button.is-pressed{transform:translateY(5px) scale(0.98);box-shadow:0 1px 0 #603018,0 2px 0 rgba(24,10,4,0.42),inset 0 3px 6px rgba(56,22,9,0.45),inset 0 0 0 2px #e99f4e;filter:brightness(0.9);}
+#hidden{display:none;}#seasonBadge{position:absolute;top:8px;left:8px;font-size:.5rem;color:#F4E9C9;background:rgba(0,0,0,0.35);padding:4px 6px;pointer-events:none;text-shadow:1px 1px 0 #000;}</style>
+</head>
+<body>
+<div id="gameWrap">
+<canvas id="game" width="144" height="256"></canvas>
+<div id="seasonBadge">Primavera · Día</div>
+<div id="overlay" class="menu-mode">
+<div class="box" id="menuBox">
+<button id="playMenuBtn"><span class="shine"></span><span class="btnText">Jugar</span><span class="leaf"></span></button><br>
+<button id="scoresMenuBtn" class="secondary"><span class="shine"></span><span class="btnText">Puntajes</span><span class="leaf"></span></button><br>
+<button id="aboutMenuBtn" class="leafBtn"><span class="shine"></span><span class="btnText">Descripción</span><span class="leaf"></span></button>
+</div>
+<div class="box" id="startBox" style="display:none;">
+<h1>EL VIAJE<br>DE MAIESY</h1>
+<p>Toca, clic o<br>espacio para volar</p>
+<p>Cada 10 tubos<br>cambia el día<br>y la estación</p>
+<button id="startBtn">JUGAR</button><br>
+<button id="startBackBtn" class="secondary">VOLVER AL MENÚ</button>
+<div class="hint" id="hsStartWrap">RECORD: <span id="hsStart">0</span></div>
+</div>
+<div class="box leaf" id="aboutBox" style="display:none;">
+<h1>DESCRIPCIÓN</h1>
+<p>Maiesy, un hada artesana, busca llegar al legendario Mundo Artesano, donde se dice que quien lo alcanza obtiene el poder del Artesano Absoluto. Ayúdala a volar, esquivar obstáculos y avanzar lo más lejos posible. ¿Lograrás descubrir la sorpresa que aguarda al final del camino?</p>
+<button id="aboutBackBtn" class="secondary">VOLVER</button>
+</div>
+<div class="box" id="scoresBox" style="display:none;">
+<h1>PUNTAJES</h1>
+<p>RECORD: <span id="hsScores">0</span></p>
+<div id="scoresList"></div>
+<button id="backBtn" class="secondary">VOLVER</button>
+</div>
+<div class="box" id="overBox" style="display:none;">
+<h1>MAIESY<br>SE ENREDÓ</h1>
+<p>PUNTAJE: <span id="finalScore">0</span></p>
+<p>RECORD: <span id="hsOver">0</span></p>
+<button id="retryBtn">REINTENTAR</button><br>
+<button id="overMenuBtn" class="secondary">VOLVER AL MENÚ</button>
+</div>
+</div>
+</div>
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const wrap = document.getElementById('gameWrap');
+const IW = 144, IH = 256;
+const RENDER_SCALE = 6;
+canvas.width = IW * RENDER_SCALE;
+canvas.height = IH * RENDER_SCALE;
+ctx.setTransform(RENDER_SCALE, 0, 0, RENDER_SCALE, 0, 0);
+ctx.imageSmoothingEnabled = false;
+const GRAVITY = 500;
+const FLAP_VELOCITY = -150;
+const PIPE_SPEED = 58;
+const PIPE_GAP = 62;
+const PIPE_WIDTH = 22;
+const PIPE_INTERVAL = 1.5;
+const GROUND_HEIGHT = 30;
+const BIRD_X = Math.round(IW * 0.3);
+const BIRD_RADIUS = 6;
+const NIGHT_TRANSITION_SECONDS = 5.5;
+const MAIESY_FRAME_COUNT = 8;
+const maiesySprite = new Image();
+let maiesyFrameW = 0, maiesyFrameH = 0, maiesyReady = false;
+maiesySprite.onload = function(){
+maiesyFrameW = maiesySprite.naturalWidth / MAIESY_FRAME_COUNT;
+maiesyFrameH = maiesySprite.naturalHeight;
+maiesyReady = true;
+};
+maiesySprite.src = 'assets/maiesy_sprite.png';
+const MAIESY_MENU_FRAME_COUNT = 8;
+const maiesyMenuSprite = new Image();
+let maiesyMenuFrameW = 0, maiesyMenuFrameH = 0, maiesyMenuReady = false;
+maiesyMenuSprite.onload = function(){
+maiesyMenuFrameW = maiesyMenuSprite.naturalWidth / MAIESY_MENU_FRAME_COUNT;
+maiesyMenuFrameH = maiesyMenuSprite.naturalHeight;
+maiesyMenuReady = true;
+};
+maiesyMenuSprite.src = 'assets/maiesy_menu_sprite_hd.png';
+const menuReferenceImage = new Image();
+let menuReferenceReady = false;
+menuReferenceImage.onload = function(){ menuReferenceReady = true; };
+menuReferenceImage.src = 'assets/menu_reference_background.png';
+const bgDayImage = new Image();
+let bgDayReady = false;
+let bgDayCanvas = null;
+bgDayImage.onload = function(){
+bgDayCanvas = prerenderCoverImage(bgDayImage, IW, IH);
+bgDayReady = true;
+};
+bgDayImage.src = 'assets/background_day.png';
+const bgNightImage = new Image();
+let bgNightReady = false;
+let bgNightCanvas = null;
+bgNightImage.onload = function(){
+bgNightCanvas = prerenderCoverImage(bgNightImage, IW, IH);
+bgNightReady = true;
+};
+bgNightImage.src = 'assets/background_night.png';
+function prerenderCoverImage(img, targetW, targetH){
+const off = document.createElement('canvas');
+off.width = targetW;
+off.height = targetH;
+const octx = off.getContext('2d');
+octx.imageSmoothingEnabled = true;
+octx.imageSmoothingQuality = 'high';
+const sw = img.naturalWidth, sh = img.naturalHeight;
+const targetRatio = targetW / targetH;
+const sourceRatio = sw / sh;
+let sx = 0, sy = 0, sWidth = sw, sHeight = sh;
+if(sourceRatio > targetRatio){
+sWidth = Math.round(sh * targetRatio);
+sx = Math.round((sw - sWidth) * 0.5);
+} else {
+sHeight = Math.round(sw / targetRatio);
+sy = Math.round((sh - sHeight) * 0.5);
+}
+octx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, targetW, targetH);
+return off;
+}
+const SEASONS = ['primavera', 'verano', 'otoño', 'invierno'];
+const SEASON_LABELS = { primavera:'Primavera', verano:'Verano', 'otoño':'Otoño', invierno:'Invierno' };
+let highScore = 0;
+function loadHighScore(){
+try{
+const v = localStorage.getItem('flappy-loro-8bit-highscore');
+if(v) highScore = parseInt(v, 10) || 0;
+}catch(e){ highScore = 0; }
+document.getElementById('hsStart').textContent = highScore;
+}
+function saveHighScore(score){
+if(score > highScore){
+highScore = score;
+try{ localStorage.setItem('flappy-loro-8bit-highscore', String(highScore)); }catch(e){}
+}
+}
+loadHighScore();
+let scoreHistory = [];
+function loadHistory(){
+try{
+const v = localStorage.getItem('flappy-loro-8bit-history');
+if(v) scoreHistory = JSON.parse(v) || [];
+}catch(e){ scoreHistory = []; }
+}
+function saveHistory(newScore){
+scoreHistory.push(newScore);
+if(scoreHistory.length > 80) scoreHistory = scoreHistory.slice(-80);
+try{ localStorage.setItem('flappy-loro-8bit-history', JSON.stringify(scoreHistory)); }catch(e){}
+}
+loadHistory();
+function renderScoresScreen(){
+document.getElementById('hsScores').textContent = highScore;
+const listEl = document.getElementById('scoresList');
+if(scoreHistory.length === 0){
+listEl.innerHTML = '<p style="opacity:.7; text-align:center;">Aún no hay partidas jugadas</p>';
+return;
+}
+const items = scoreHistory.slice().reverse();
+listEl.innerHTML = items.map((s,i)=>{
+const n = items.length - i;
+const isBest = s === highScore && s > 0;
+return '<div class="scoreRow'+(isBest?' best':'')+'"><span>Partida '+n+'</span><span>'+s+(isBest?' ★':'')+'</span></div>';
+}).join('');
+}
+let state = 'menu';
+let bird, pipes, score, timeSincePipe, groundOffset, wingFrame, wingTimer, lastTime;
+let lastMilestone = 0;
+let cycleIndex = 0;          // increases every 10 pipes passed
+let nightAmount = 0;         // 0 = day, 1 = night (current, smoothed)
+let nightTarget = 0;         // target value nightAmount is easing toward
+let season = SEASONS[0];
+let particles = [];
+let particleTimer = 0;
+let stars = [];
+for(let i=0;i<26;i++){
+stars.push({ x: Math.random()*IW, y: Math.random()*(IH-GROUND_HEIGHT-30), blink: Math.random()*Math.PI*2 });
+}
+let fireflies = [];
+for(let i=0;i<16;i++){
+fireflies.push({
+x: Math.random()*IW,
+y: 70 + Math.random()*140,
+phase: Math.random()*Math.PI*2,
+vx: (Math.random()-0.5)*5,
+vy: -4 - Math.random()*5
+});
+}
+function updateFireflies(dt){
+fireflies.forEach(f=>{
+f.x += f.vx*dt;
+f.y += f.vy*dt;
+if(f.y < 55) f.y = 210;
+if(f.x < -4) f.x = IW+4;
+if(f.x > IW+4) f.x = -4;
+});
+}
+let birds = [];
+for(let i=0;i<5;i++){
+birds.push({
+x: Math.random()*IW,
+y: 16 + Math.random()*46,
+speed: 10 + Math.random()*12,
+dir: Math.random() < 0.5 ? 1 : -1,
+phase: Math.random()*Math.PI*2
+});
+}
+function updateBirds(dt){
+birds.forEach(b=>{
+b.x += b.dir*b.speed*dt;
+b.phase += dt*7;
+if(b.dir > 0 && b.x > IW+8) b.x = -8;
+if(b.dir < 0 && b.x < -8) b.x = IW+8;
+});
+}
+function drawFlyingBird(x, y, phase, color){
+const wing = Math.sin(phase)*3;
+ctx.strokeStyle = color;
+ctx.lineWidth = 1.3;
+ctx.beginPath();
+ctx.moveTo(x-4, y-wing);
+ctx.lineTo(x, y);
+ctx.lineTo(x+4, y-wing);
+ctx.stroke();
+}
+function drawBirds(){
+birds.forEach(b=> drawFlyingBird(b.x, b.y, b.phase, 'rgba(70,58,46,0.55)'));
+}
+function updateSeasonBadge(){
+const label = SEASON_LABELS[season] + ' · ' + (nightTarget ? 'Noche' : 'Día');
+document.getElementById('seasonBadge').textContent = label;
+}
+updateSeasonBadge();
+function resetGame(){
+bird = { y: IH*0.4, vy: 0, rot: 0 };
+pipes = [];
+score = 0;
+timeSincePipe = 0;
+groundOffset = 0;
+wingFrame = 0;
+wingTimer = 0;
+lastMilestone = 0;
+cycleIndex = 0;
+nightAmount = 0;
+nightTarget = 0;
+season = SEASONS[0];
+particles = [];
+particleTimer = 0;
+updateSeasonBadge();
+}
+resetGame();
+function spawnPipe(){
+const margin = 26;
+const playH = IH - GROUND_HEIGHT;
+const gapCenter = margin + Math.random() * (playH - margin*2 - PIPE_GAP) + PIPE_GAP/2;
+pipes.push({ x: IW + PIPE_WIDTH, gapCenter, passed:false });
+}
+function triggerMilestone(){
+cycleIndex++;
+nightTarget = (cycleIndex % 2 === 1) ? 1 : 0;
+season = SEASONS[cycleIndex % 4];
+updateSeasonBadge();
+}
+function flap(){
+if(state === 'menu' || state === 'scores' || state === 'about') return;
+if(state === 'start'){ startGame(); return; }
+if(state === 'over') return;
+bird.vy = FLAP_VELOCITY;
+}
+function startGame(){
+resetGame();
+state = 'playing';
+setOverlayMode(false);
+document.getElementById('startBox').style.display = 'none';
+document.getElementById('overBox').style.display = 'none';
+bird.vy = FLAP_VELOCITY;
+}
+function endGame(){
+state = 'over';
+setOverlayMode(false);
+saveHighScore(score);
+saveHistory(score);
+document.getElementById('finalScore').textContent = score;
+document.getElementById('hsOver').textContent = highScore;
+document.getElementById('overBox').style.display = 'block';
+}
+window.addEventListener('keydown', e=>{
+if(e.code === 'Space'){ e.preventDefault(); flap(); }
+});
+canvas.addEventListener('pointerdown', flap);
+document.getElementById('startBtn').addEventListener('click', startGame);
+document.getElementById('retryBtn').addEventListener('click', startGame);
+function hideAllBoxes(){
+['menuBox','startBox','aboutBox','scoresBox','overBox'].forEach(id=>{
+document.getElementById(id).style.display = 'none';
+});
+}
+function setOverlayMode(isMenu){
+document.getElementById('overlay').classList.toggle('menu-mode', isMenu);
+}
+function goToMenu(){
+state = 'menu';
+hideAllBoxes();
+setOverlayMode(true);
+document.getElementById('menuBox').style.display = 'flex';
+}
+document.getElementById('playMenuBtn').addEventListener('click', ()=>{
+state = 'start';
+hideAllBoxes();
+setOverlayMode(false);
+document.getElementById('startBox').style.display = 'block';
+});
+document.getElementById('scoresMenuBtn').addEventListener('click', ()=>{
+state = 'scores';
+renderScoresScreen();
+hideAllBoxes();
+setOverlayMode(true);
+document.getElementById('scoresBox').style.display = 'block';
+});
+document.getElementById('aboutMenuBtn').addEventListener('click', ()=>{
+state = 'about';
+hideAllBoxes();
+setOverlayMode(true);
+document.getElementById('aboutBox').style.display = 'block';
+});
+document.getElementById('backBtn').addEventListener('click', goToMenu);
+document.getElementById('aboutBackBtn').addEventListener('click', goToMenu);
+document.getElementById('startBackBtn').addEventListener('click', goToMenu);
+document.getElementById('overMenuBtn').addEventListener('click', goToMenu);
+document.querySelectorAll('#overlay button').forEach(btn=>{
+const press = ()=> btn.classList.add('is-pressed');
+const release = ()=> btn.classList.remove('is-pressed');
+btn.addEventListener('touchstart', press, {passive:true});
+btn.addEventListener('touchend', release, {passive:true});
+btn.addEventListener('touchcancel', release, {passive:true});
+btn.addEventListener('mousedown', press);
+btn.addEventListener('mouseup', release);
+btn.addEventListener('mouseleave', release);
+});
+function spawnParticle(){
+if(season === 'otoño'){
+particles.push({
+x: Math.random()*IW, y: -4,
+vy: 14 + Math.random()*10,
+sway: Math.random()*Math.PI*2, swaySpeed: 2+Math.random()*2,
+size: 2 + Math.round(Math.random()*1),
+color: ['#C1642F','#E0A23A','#8C4A2B'][Math.floor(Math.random()*3)]
+});
+} else if(season === 'invierno'){
+particles.push({
+x: Math.random()*IW, y: -4,
+vy: 10 + Math.random()*8,
+sway: Math.random()*Math.PI*2, swaySpeed: 1+Math.random()*1.5,
+size: 1 + Math.round(Math.random()*1),
+color: '#F4F7FA'
+});
+}
+}
+function updateParticles(dt){
+if(season === 'otoño' || season === 'invierno'){
+particleTimer += dt;
+const rate = season === 'otoño' ? 0.18 : 0.12;
+if(particleTimer >= rate){
+particleTimer = 0;
+spawnParticle();
+}
+}
+particles.forEach(p=>{
+p.sway += p.swaySpeed*dt;
+p.x += Math.sin(p.sway)*10*dt;
+p.y += p.vy*dt;
+});
+particles = particles.filter(p=> p.y < IH - GROUND_HEIGHT + 4);
+}
+function drawParticles(){
+particles.forEach(p=>{
+ctx.fillStyle = p.color;
+ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
+});
+}
+function update(dt){
+if(state === 'menu' || state === 'scores' || state === 'about'){
+updateFireflies(dt);
+if(state === 'menu'){ updateBirds(dt); }
+return;
+}
+groundOffset = (groundOffset + PIPE_SPEED*dt) % 8;
+const diff = nightTarget - nightAmount;
+if(Math.abs(diff) > 0.001){
+const step = dt / NIGHT_TRANSITION_SECONDS;
+nightAmount += Math.sign(diff) * Math.min(Math.abs(diff), step);
+}
+updateParticles(dt);
+if(state !== 'playing') return;
+bird.vy += GRAVITY * dt;
+bird.y += bird.vy * dt;
+bird.rot = Math.max(-0.5, Math.min(1.2, bird.vy/500));
+wingTimer += dt;
+if(wingTimer > 0.045){ wingTimer = 0; wingFrame = (wingFrame+1) % MAIESY_FRAME_COUNT; }
+timeSincePipe += dt;
+if(timeSincePipe >= PIPE_INTERVAL){
+timeSincePipe = 0;
+spawnPipe();
+}
+for(const p of pipes){
+p.x -= PIPE_SPEED*dt;
+if(!p.passed && p.x + PIPE_WIDTH < BIRD_X){
+p.passed = true;
+score++;
+if(score > 0 && score % 10 === 0 && score !== lastMilestone){
+lastMilestone = score;
+triggerMilestone();
+}
+}
+}
+pipes = pipes.filter(p => p.x > -PIPE_WIDTH);
+if(bird.y + BIRD_RADIUS > IH - GROUND_HEIGHT || bird.y - BIRD_RADIUS < 0){
+endGame();
+return;
+}
+for(const p of pipes){
+const withinX = BIRD_X + BIRD_RADIUS > p.x && BIRD_X - BIRD_RADIUS < p.x + PIPE_WIDTH;
+if(withinX){
+const topEdge = p.gapCenter - PIPE_GAP/2;
+const botEdge = p.gapCenter + PIPE_GAP/2;
+if(bird.y - BIRD_RADIUS < topEdge || bird.y + BIRD_RADIUS > botEdge){
+endGame();
+return;
+}
+}
+}
+}
+function lerp(a,b,t){ return a + (b-a)*t; }
+function lerpColor(c1, c2, t){
+return [ Math.round(lerp(c1[0],c2[0],t)), Math.round(lerp(c1[1],c2[1],t)), Math.round(lerp(c1[2],c2[2],t)) ];
+}
+function rgb(c){ return 'rgb('+c[0]+','+c[1]+','+c[2]+')'; }
+const SKY_DAY   = [ [110,198,255], [160,220,255], [205,238,255], [235,248,255] ];
+const SKY_NIGHT = [ [10,12,38],   [18,20,54],    [28,30,72],    [40,42,90]   ];
+const SEASON_OVERLAY = {
+primavera: null,
+verano:   [255,244,190,0.10],
+'otoño':  [214,120,54,0.16],
+invierno: [220,235,255,0.18]
+};
+const GROUND_TOP = {
+primavera: '#5FB24A',
+verano:   '#7BC94E',
+'otoño':  '#B87A3A',
+invierno: '#F4F7FA'
+};
+const GROUND_TOP_DARK = {
+primavera: '#3F8F35',
+verano:   '#59A036',
+'otoño':  '#8F5A26',
+invierno: '#D6E4F0'
+};
+function smoothstep(t){ return t*t*(3-2*t); }
+const DUSK_TINT = [255,140,92];
+const DAWN_TINT = [150,163,255];
+function drawSky(){
+const eased = smoothstep(Math.min(1, Math.max(0, nightAmount)));
+if(bgDayCanvas){
+ctx.globalAlpha = 1;
+ctx.drawImage(bgDayCanvas, 0, 0);
+} else {
+ctx.fillStyle = rgb(SKY_DAY[0]);
+ctx.fillRect(0, 0, IW, IH);
+}
+if(bgNightCanvas && eased > 0.001){
+ctx.globalAlpha = eased;
+ctx.drawImage(bgNightCanvas, 0, 0);
+ctx.globalAlpha = 1;
+}
+const twilightStrength = Math.max(0, 1 - Math.abs(nightAmount-0.5)*2);
+if(twilightStrength > 0.01){
+const tint = nightTarget === 1 ? DUSK_TINT : DAWN_TINT;
+ctx.globalAlpha = twilightStrength * 0.28;
+ctx.fillStyle = rgb(tint);
+ctx.fillRect(0, 0, IW, IH-GROUND_HEIGHT);
+ctx.globalAlpha = 1;
+}
+}
+function drawSeasonOverlay(){
+const ov = SEASON_OVERLAY[season];
+if(!ov) return;
+ctx.fillStyle = 'rgba('+ov[0]+','+ov[1]+','+ov[2]+','+ov[3]+')';
+ctx.fillRect(0,0,IW,IH-GROUND_HEIGHT);
+}
+function drawVine(x, yStart, height, width, seed){
+if(height <= 0) return;
+const stemColor = '#2F6B3A';
+const leafColor = '#5FCB6E';
+const leafColorDark = '#3F9E52';
+const step = 6;
+let n = 0;
+for(let i=0; i<height; i+=step){
+const wobble = Math.sin((i+seed)/9) * (width*0.22);
+const vx = Math.round(x + width/2 + wobble);
+const segH = Math.min(step, height-i);
+ctx.fillStyle = stemColor;
+ctx.fillRect(vx, yStart+i, 2, segH);
+ctx.fillStyle = (n%2===0) ? leafColor : leafColorDark;
+if(n%2===0){
+ctx.fillRect(vx+2, yStart+i+1, 3, 2);
+} else {
+ctx.fillRect(vx-4, yStart+i+1, 3, 2);
+}
+n++;
+}
+}
+function drawLogCap(x, capY, height){
+const cx = x + PIPE_WIDTH/2;
+ctx.fillStyle = '#42291A';
+ctx.fillRect(x-3, capY-2, PIPE_WIDTH+6, height+2);
+ctx.fillStyle = '#D9B77E';
+ctx.fillRect(x-1, capY, PIPE_WIDTH+2, height);
+ctx.fillStyle = '#C29A5E';
+ctx.fillRect(x+2, capY+2, PIPE_WIDTH-4, Math.max(1,height-4));
+ctx.fillStyle = '#A87D45';
+ctx.fillRect(x+5, capY+3, PIPE_WIDTH-10, Math.max(1,height-6));
+ctx.fillStyle = '#8C6636';
+ctx.fillRect(cx-2, capY+4, 4, Math.max(1,height-8));
+}
+function drawPipes(){
+pipes.forEach(p=>{
+const topH = p.gapCenter - PIPE_GAP/2;
+const botY = p.gapCenter + PIPE_GAP/2;
+const botH = (IH-GROUND_HEIGHT) - botY;
+const x = Math.round(p.x);
+ctx.fillStyle = '#5C3E26';
+ctx.fillRect(x, 0, PIPE_WIDTH, topH);
+ctx.fillRect(x, botY, PIPE_WIDTH, botH);
+ctx.fillStyle = '#42291A';
+ctx.fillRect(x, 0, 5, topH);
+ctx.fillRect(x, botY, 5, botH);
+ctx.fillStyle = '#7A5636';
+ctx.fillRect(x+PIPE_WIDTH-4, 0, 4, topH);
+ctx.fillRect(x+PIPE_WIDTH-4, botY, 4, botH);
+ctx.fillStyle = 'rgba(0,0,0,0.16)';
+ctx.fillRect(x+11, 0, 2, topH);
+ctx.fillRect(x+11, botY, 2, botH);
+ctx.fillStyle = 'rgba(0,0,0,0.18)';
+for(let i=10;i<topH-10;i+=16){ ctx.fillRect(x+8, i, 7, 3); }
+for(let i=botY+10;i<botY+botH-10;i+=16){ ctx.fillRect(x+8, i, 7, 3); }
+drawLogCap(x, topH-9, 9);
+drawLogCap(x, botY, 9);
+ctx.fillStyle = '#5FA13D';
+ctx.fillRect(x-3, topH-2, 6, 3);
+ctx.fillRect(x+PIPE_WIDTH-3, topH-2, 6, 3);
+ctx.fillRect(x-3, botY+8, 6, 3);
+ctx.fillRect(x+PIPE_WIDTH-3, botY+8, 6, 3);
+drawVine(x, 0, topH-9, PIPE_WIDTH, x*0.7);
+drawVine(x, botY+9, botH-9, PIPE_WIDTH, x*0.7+30);
+if(season === 'invierno'){
+ctx.fillStyle = '#F4F7FA';
+ctx.fillRect(x-3, topH-13, PIPE_WIDTH+6, 3);
+ctx.fillRect(x-3, botY, PIPE_WIDTH+6, 3);
+}
+});
+}
+function drawGround(){
+const groundY = IH - GROUND_HEIGHT;
+ctx.fillStyle = '#3E2A1C';
+ctx.fillRect(0, groundY, IW, GROUND_HEIGHT);
+ctx.fillStyle = '#523822';
+ctx.fillRect(0, groundY+5, IW, GROUND_HEIGHT-5);
+const topColor = GROUND_TOP[season];
+const topColorDark = GROUND_TOP_DARK[season];
+ctx.fillStyle = topColor;
+ctx.fillRect(0, groundY, IW, 4);
+let gx = -8 - (groundOffset % 8);
+while(gx < IW+8){
+ctx.fillStyle = topColor;
+ctx.fillRect(gx, groundY-2, 4, 3);
+ctx.fillRect(gx+4, groundY-1, 4, 2);
+ctx.fillStyle = topColorDark;
+ctx.fillRect(gx+2, groundY+2, 3, 2);
+gx += 8;
+}
+ctx.fillStyle = 'rgba(255,255,255,0.07)';
+let x = -4 - groundOffset;
+while(x < IW+10){
+ctx.fillRect(x, groundY+10, 3, 2);
+x += 14;
+}
+}
+function drawMaiesySprite(x, y, frameIndex, displayH, rotation, flip){
+if(!maiesyReady){
+ctx.fillStyle = '#4FCB6E';
+ctx.fillRect(Math.round(x)-4, Math.round(y)-4, 8, 8);
+return;
+}
+displayH = Math.round(displayH);
+const displayW = Math.round(displayH * (maiesyFrameW / maiesyFrameH));
+const dx = -Math.floor(displayW/2), dy = -Math.floor(displayH/2);
+ctx.save();
+ctx.translate(Math.round(x), Math.round(y));
+if(rotation) ctx.rotate(rotation);
+if(flip) ctx.scale(-1, 1);
+ctx.drawImage(
+maiesySprite,
+Math.floor(frameIndex)*maiesyFrameW, 0, maiesyFrameW, maiesyFrameH,
+dx, dy, displayW, displayH
+);
+ctx.restore();
+}
+function drawBird(){
+const x = BIRD_X, y = Math.round(bird.y);
+drawMaiesySprite(x, y, wingFrame, 30, 0);
+}
+function drawMaiesyMenuSprite(x, y, frameIndex, displayH, rotation){
+if(!maiesyMenuReady){
+ctx.fillStyle = '#4FCB6E';
+ctx.fillRect(x-4, y-4, 8, 8);
+return;
+}
+const displayW = Math.round(displayH * (maiesyMenuFrameW / maiesyMenuFrameH));
+ctx.save();
+const wasSmoothing = ctx.imageSmoothingEnabled;
+ctx.imageSmoothingEnabled = true;
+ctx.imageSmoothingQuality = 'high';
+ctx.translate(Math.round(x), Math.round(y));
+if(rotation) ctx.rotate(rotation);
+ctx.drawImage(
+maiesyMenuSprite,
+Math.round(frameIndex*maiesyMenuFrameW), 0, Math.round(maiesyMenuFrameW), maiesyMenuFrameH,
+-Math.floor(displayW/2), -Math.floor(displayH/2), displayW, displayH
+);
+ctx.imageSmoothingEnabled = wasSmoothing;
+ctx.restore();
+}
+function drawMenuMaiesy(){
+const t = Date.now();
+const frame = Math.floor(t / 145) % MAIESY_MENU_FRAME_COUNT;
+const bob = Math.sin(t / 820) * 2.8;
+drawMaiesyMenuSprite(104, 145 + bob, frame, 64, Math.sin(t / 980) * 0.02);
+}
+function drawMenuReference(){
+if(!menuReferenceReady){
+const g = ctx.createLinearGradient(0,0,0,IH);
+g.addColorStop(0,'#244F5C');
+g.addColorStop(0.55,'#8AC7A4');
+g.addColorStop(1,'#2F5C35');
+ctx.fillStyle = g;
+ctx.fillRect(0,0,IW,IH);
+return;
+}
+ctx.drawImage(menuReferenceImage, 0, 0, IW, IH);
+}
+function drawMenuBackground(){
+drawMenuReference();
+}
+function draw(){
+if(state === 'menu' || state === 'scores' || state === 'about'){
+drawMenuBackground();
+if(state === 'menu'){
+drawMenuMaiesy();
+}
+return;
+}
+drawSky();
+drawSeasonOverlay();
+drawPipes();
+drawParticles();
+drawGround();
+drawBird();
+ctx.fillStyle = 'rgba(0,0,0,0.35)';
+ctx.font = "16px 'Press Start 2P'";
+ctx.textAlign = 'center';
+ctx.fillText(String(score), IW/2+1, 27);
+ctx.fillStyle = '#FFFFFF';
+ctx.fillText(String(score), IW/2, 26);
+}
+function frame(t){
+if(!lastTime) lastTime = t;
+const dt = Math.min(0.033, (t-lastTime)/1000);
+lastTime = t;
+update(dt);
+draw();
+requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body></html>
+
+
+
+
